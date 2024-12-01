@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block body %}
+    <div class="container"> 
+        <h1>Shop Now</h1> 
+          <div class="row"> 
+            {% for merchandise in merchandises %}
+             <div class="col-md-4"> 
+                <div class="card mb-4 shadow-sm"> 
+                    <img src="{{ merchandise.image.url }}" class="card-img-top" alt="{{ merchandise.name }}"> 
+                    <div class="card-body"> 
+                        <h5 class="card-title">{{ merchandise.name }}</h5> 
+                        <p class="card-text">{{ merchandise.details }}</p> 
+                        <div class="d-flex justify-content-between align-items-center"> 
+                            <div class="btn-group"> 
+                                <form method="post" style="display:inline;"> 
+                                    {% csrf_token %} 
+                                    <button type="submit" name="edit" value="{{ merchandise.id }}" class="btn btn-warning">Edit</button> 
+                                </form> 
+                                <form method="post" style="display:inline;"> 
+                                    {% csrf_token %} 
+                                    <button type="submit" name="delete" value="{{ merchandise.id }}" class="btn btn-danger">Delete</button> 
+                                </form> 
+                            </div> 
+                            <button class="btn btn-primary">Price: ksh{{ merchandise.price }}</button> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+            {% endfor %}
+
+    {% endblock %}
+</body>
+</html>

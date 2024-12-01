@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block body %}
+    <h1>{{ illness.name }}</h1>
+    <p>{{ illness.description }}</p>
+
+    <h2>Related Images:</h2>
+    <div>
+       {% if illness.images.exists %}
+          <div class="image-gallery">
+                {% for image in illness.images.all %}
+                   <img src="{{image.pic.url}}" alt="Image for {{illness.name}}" style="width: 500px; height:400px">
+                {% endfor %}
+          </div>
+        {% else %}
+            <P>No images available for {{illness.name}}</P>
+        {% endif %}
+    </div>
+
+    <a href="{% url 'index' %}">Back to the homepage</a>
+    {% endblock %}
+</body>
+</html>

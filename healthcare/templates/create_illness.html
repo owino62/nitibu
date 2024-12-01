@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+       
+        {{ picha_form.as_p }}
+        
+        <label for="symptoms">Upload Images:</label>
+        <input type="file" name="symptoms" multiple>
+        
+        <button type="submit">Create Illness</button>
+    </form>
+</body>
+</html>

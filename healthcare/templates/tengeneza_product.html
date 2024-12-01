@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Section</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Tengeneza Product</h1>
+        <form action="">
+            {% csrf_token %}
+            {{product_form.as_p}}
+            <label for="symptoms">Upload Images</label>
+            <input type="file" name="synptoms" multiple>
+            <button type="submit" name="save" value="{{illness_form.instamce.pk}}" class="btn btn-primary mt-3">Save</button>
+        </form>
+
+        <h2>All Products</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{product.id}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.details}}</td>
+                    <td>
+                        <form method="post" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" name="edit" value="{{product.id}}" class="btn btn-warning">Edit</button>
+                        </form>
+                        <form method="post" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" name="delete" value="{{product.id}}" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illness Section</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Tengeneza Illness</h1>
+        <form action="">
+            {% csrf_token %}
+            {{illness_form.as_p}}
+            <label for="symptoms">Upload Images</label>
+            <input type="file" name="synptoms" multiple>
+            <button type="submit" name="save" value="{{illness_form.instamce.pk}}" class="btn btn-primary mt-3">Save</button>
+        </form>
+
+        <h2>All Illnesses</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Illness</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for illness in illnesses %}
+                <tr>
+                    <td>{{illness.id}}</td>
+                    <td>{{illness.name}}</td>
+                    <td>{{illness.description}}</td>
+                    <td>
+                        <form method="post" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" name="edit" value="{{illness.id}}" class="btn btn-warning">Edit</button>
+                        </form>
+                        <form method="post" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" name="delete" value="{{illness.id}}" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

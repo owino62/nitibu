@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- search_results.html -->
+<form method="get" action="{% url 'search' %}">
+    <input type="text" name="query" value="{{ query }}" placeholder="Search for illness...">
+    <button type="submit">Search</button>
+</form>
+
+{% if results %}
+    <ul>
+    {% for illness in results %}
+        <li>
+            <!-- Correct URL generation with illness.name -->
+            <a href="{% url 'illness_detail' illness.name %}">
+                <strong>{{ illness.name }}</strong> - {{ illness.description|slice:":100" }}...
+            </a>
+            
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found for "{{ query }}"</p>
+{% endif %}
+
+</body>
+</html>
