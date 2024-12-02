@@ -20,17 +20,8 @@
                         <h5 class="card-title">{{ merchandise.name }}</h5> 
                         <p class="card-text">{{ merchandise.details }}</p> 
                         <div class="d-flex justify-content-between align-items-center"> 
-                            <div class="btn-group"> 
-                                <form method="post" style="display:inline;"> 
-                                    {% csrf_token %} 
-                                    <button type="submit" name="edit" value="{{ merchandise.id }}" class="btn btn-warning">Edit</button> 
-                                </form> 
-                                <form method="post" style="display:inline;"> 
-                                    {% csrf_token %} 
-                                    <button type="submit" name="delete" value="{{ merchandise.id }}" class="btn btn-danger">Delete</button> 
-                                </form> 
-                            </div> 
-                            <button class="btn btn-primary">Price: ksh{{ merchandise.price }}</button> 
+                            
+                            <a href="{% url 'pay' merchandise.id %}" class="btn btn-primary">Price: Ksh{{merchandise.price}}</a>
                         </div> 
                     </div> 
                 </div> 

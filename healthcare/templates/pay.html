@@ -10,7 +10,7 @@
         {% csrf_token %}
 
         <input name="phone" type="number" placeholder="Phone Number" value="254"> <br><br>
-        <input name="amount" type="number" placeholder="Amount"> <br><br>
+        <input name="amount" type="number" placeholder="Amount" value="{{merchandise.price}}"><br><br>
         <input type="submit" placeholder="Pay Now">
     </form>
 </body>

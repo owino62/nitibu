@@ -22,6 +22,6 @@ urlpatterns=[
     path('search/',views.search_view,name='search'),
     path('shop_now', views.shop_now, name='shop_now'),
     path('tengeneza_product/', views.tengeneza_product, name='tengeneza_product'),
-    path('pay/', views.pay, name='pay'),
+    path('pay/<int:merchandise_id>/', views.pay, name='pay'),
     path('stk/', views.stk, name='stk'),
 ]

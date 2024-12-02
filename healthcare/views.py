@@ -116,8 +116,9 @@ def tengeneza_illness(request):
 def shop_now(request):
     return render(request,'shop_now.html')
 
-def pay(request):
-    return render(request, 'pay.html')
+def pay(request, merchandise_id):
+    merchandise=get_object_or_404(Merchandise, id=merchandise_id)
+    return render(request, 'pay.html',{'merchandise':merchandise})
 
 def stk(request):
     if request.method=='POST':
