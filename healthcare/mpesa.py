@@ -5,8 +5,8 @@ from datetime import datetime
 import base64
 
 class Credentials:
-    consumer_key='IrxrHnxGmnsyndodKPVYjG8pus8huriQqSqDPNVadJQD30Yg'
-    consumer_secret='MyfcKchufBr7jpzx8jiZpsdOGK2sLFVGRsmXnGAoSrMf2hXq5pw3MmCXSzPUXKW5'
+    consumer_key='IJXIET6MpUGo5aFymUfUdIddLVNhAIDzGv3FB4RcAayjDWfg'
+    consumer_secret='FQKEGHTaeAp16L1A8MyGMGN2rxFzewnNeHz5UdGcy5kBA4WNnpM3uGQ27RUAg1ew'
     apiurl='https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
 
 class AccessToken:

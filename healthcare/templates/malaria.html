@@ -9,15 +9,19 @@
 </head>
 <body>
     {% block body %}
-    <h1>{{ illness.name }}</h1>
-    <p>{{ illness.description }}</p>
-
-    <h2>Related Images:</h2>
+    
     <div>
        {% if illness.images.exists %}
-          <div class="image-gallery">
+          <h1>{{ illness.name }}</h1>
+          <p>{{ illness.description }}</p>
+          <h2 class="mt-3">Related Images:</h2>
+          <div class="row image-gallery">
                 {% for image in illness.images.all %}
-                   <img src="{{image.pic.url}}" alt="Image for {{illness.name}}" style="width: 500px; height:400px">
+                    <div class="col-md-3 mb-4">
+                        <div class="card">
+                            <img src="{{image.pic.url}}" alt="Image for {{illness.name}}"  class="card-img-top img-fluid">
+                        </div>
+                    </div>
                 {% endfor %}
           </div>
         {% else %}
@@ -25,7 +29,10 @@
         {% endif %}
     </div>
 
-    <a href="{% url 'index' %}">Back to the homepage</a>
+    <div class="mt-4">
+        <a href="{% url 'index' %}">Back to the homepage</a>
+    </div>
+
     {% endblock %}
 </body>
 </html>

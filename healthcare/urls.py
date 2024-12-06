@@ -24,4 +24,6 @@ urlpatterns=[
     path('tengeneza_product/', views.tengeneza_product, name='tengeneza_product'),
     path('pay/<int:merchandise_id>/', views.pay, name='pay'),
     path('stk/', views.stk, name='stk'),
+    path('appointment/',views.appointment_view, name='appointment'),
+    path('contact/',views.contact, name='contact'),
 ]

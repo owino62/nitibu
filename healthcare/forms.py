@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.forms.widgets import TextInput, PasswordInput
-from .models import Ugonjwa, TyphoidPhoto, Typhoid, Illness, Sign, Merchandise, Image, User
+from .models import Ugonjwa, TyphoidPhoto, Typhoid, Illness, Sign, Merchandise, Image, User, Appointment,ContactMessage
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -55,3 +55,13 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model=Image
         fields=['sample', 'image']
+
+class AppointmentForm(forms.ModelForm):
+    class Meta:
+        model=Appointment
+        fields=['name','email','phone','date','department','doctor','message']
+
+class ContactMessageForm(forms.ModelForm):
+    class Meta:
+        model=ContactMessage
+        fields=['name','email','subject','message']

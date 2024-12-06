@@ -15,7 +15,11 @@
             {% for merchandise in merchandises %}
              <div class="col-md-4"> 
                 <div class="card mb-4 shadow-sm"> 
-                    <img src="{{ merchandise.image.url }}" class="card-img-top" alt="{{ merchandise.name }}"> 
+                    {% if merchandise.sample.all %}
+                       <img src="{{ merchandise.sample.first.image.url }}" class="card-img-top" alt="{{ merchandise.name }}"> 
+                    {% else %}
+                       <img src="{% static 'default_image.jpg' %}" class="card-img-top" alt="Default image">
+                    {% endif %}
                     <div class="card-body"> 
                         <h5 class="card-title">{{ merchandise.name }}</h5> 
                         <p class="card-text">{{ merchandise.details }}</p> 

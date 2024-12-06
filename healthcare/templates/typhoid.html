@@ -9,25 +9,36 @@
 </head>
 <body>
     {% block body %}
-   <h2>{{illness.name}}</h2>
-   <p>This is a water-borne disease caused by a bacteria known as Salmonella Typhi.</p>
-   <p>It is also spread through contaminated food</p>
-   <h2>Symptoms</h2>
-   <div class="container">
-    <p>{{illness.description}}</p>
-   </div>
-   <div class="container">
-    <h2>Images of signs</h2>
-    {% if illness.images.exists %}
-        <div class="image-gallery">
-            {% for image in illness.images.all %}
-                <img src="{{image.pic.url}}" alt="Image for {{illness.name}}" style="width: 500px; height: 400px;">
-            {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="mt-4">{{illness.name}}</h2>
+                <p>This is a water-borne disease caused by a bacteria known as Salmonella Typhi.</p>
+                <p>It is also spread through contaminated food</p>
+                <h2>Symptoms</h2>
+                <div class="container">
+                  <p>{{illness.description}}</p>
+                </div>
+            </div>
         </div>
-    {% else %}
+    </div>
+   
+   {% if illness.images.exists %}
+   <div class="container">
+    <div class="row">
+        {% for image in illness.images.all %}
+            <div class="col-md-3">
+              <div class="card mb-4">
+                <img src="{{image.pic.url}}" alt="Image for {{illness.name}}"  class="card-img-top img-fluid">
+              </div>
+            </div>
+        {% endfor %}
+    </div>  
+   </div>
+   {% else %}
         <p>No images available for {{illness.name}}</p>
     {% endif %}
-   </div>
+
    {% endblock %}
 </body>
 </html>

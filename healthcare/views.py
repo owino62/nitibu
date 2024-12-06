@@ -12,18 +12,23 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .serializers import TyphoidSerializer
 from healthcare.models import Ugonjwa
-from .models import Typhoid, Illness, Sign, Merchandise, Image, User
-from .forms import TyphoidForm, TyphoidPhotoFormSet, IllnessForm, SignForm, SearchForm, MerchandiseForm, ImageForm
+from .models import Typhoid, Illness, Sign, Merchandise, Image, User, Doctor, Appointment, Department,ContactMessage
+from .forms import TyphoidForm, TyphoidPhotoFormSet, IllnessForm, SignForm, SearchForm, MerchandiseForm, ImageForm, AppointmentForm, ContactMessageForm
 from .mpesa import AccessToken, Password
 from django.http import HttpResponse
 import requests
+import random
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 
 # function -based views(normal)
 @login_required
 def index(request):
-    return render(request,'index.html')
+    departments=Department.objects.all()
+    doctors=Doctor.objects.all()
+    return render(request,'index.html', {"departments":departments, "doctors":doctors})
 
 def register(request):
     if request.method=='POST':
@@ -114,20 +119,47 @@ def tengeneza_illness(request):
 
 
 def shop_now(request):
-    return render(request,'shop_now.html')
+    merchandise_list=Merchandise.objects.all()
+    context={
+        "merchandise_list": merchandise_list,
+    }
+    return render(request,'shop_now.html', context)
 
 def pay(request, merchandise_id):
     merchandise=get_object_or_404(Merchandise, id=merchandise_id)
     return render(request, 'pay.html',{'merchandise':merchandise})
 
+def appointment_view(request):
+    if request.method == 'POST': 
+        form=AppointmentForm(request.POST)
+        if form.is_valid():
+            appointment=form.save()
+
+            send_mail(
+                'Appointment Request Confirmation',
+                f'Hello {form.cleaned_data["name"]},\n\n'
+                f'Your appointment with {form.cleaned_data["doctor"]} on {form.cleaned_data["date"]} has been confirmed.',
+                settings.DEFAULT_FROM_EMAIL,
+                [form.cleaned_data["email"]],
+                fail_silently=False,
+            )
+
+            messages.success(request, 'Your appointment request has been successfully sent. Thank you!')
+
+            return redirect('index')
+    
+    else:
+        form=AppointmentForm()
+    
+    return render(request,'index.html',{"form":form})
+
 def stk(request):
     if request.method=='POST':
         phone=request.POST['phone']
-        amount=request.POST['amount']
+        amount=int(float(request.POST['amount']))
         access_token=AccessToken.access_token
         api_url='https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'
-        header={"Authorization": "Bearer %s" % access_token}
-
+        header={'Authorization': f'Bearer {access_token}', 'Content-Type': 'application/json'}
         request= {    
              "BusinessShortCode": Password.shortcode,    
              "Password": Password.decoded_password,
@@ -138,12 +170,14 @@ def stk(request):
              "PartyB":Password.shortcode,    
              "PhoneNumber":phone,    
              "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa",    
-             "AccountReference":"Eugene",    
+             "AccountReference":"Nitibu Solutions",    
              "TransactionDesc":"Payment for kicks"
              }
-
+        print(request)
     response= requests.post(api_url, json=request, headers=header)
+    print(response)
     return HttpResponse('success')
+
 
 
 def tengeneza_product(request):
@@ -153,7 +187,7 @@ def tengeneza_product(request):
         if 'save' in request.POST:
             pk=request.POST.get('save')
             if pk:
-                merchandise=get_object_or_404(Product, pk=pk)
+                merchandise=get_object_or_404(Merchandise, pk=pk)
                 merchandise_form=MerchandiseForm(request.POST,instance=merchandise)
                 image_form=ImageForm(request.POST, request.FILES)
             
@@ -297,6 +331,29 @@ def illness_detail_view(request, illness_name):
     template_name=f'{illness_name}.html'
 
     return render(request, template_name, {'illness': illness})
+
+def contact(request):
+    if request.method=='POST':
+        form=ContactMessageForm(request.POST)
+        if form.is_valid():
+            contact=form.save()
+
+        send_mail(
+           'Contacting Us',
+           'Thanks for reaching out, we will give feedback shortly',
+           settings.DEFAULT_FROM_EMAIL,
+           [form.cleaned_data["email"]],
+           fail_silently=False,
+        )
+
+        messages.success(request, 'Your message has been successfully sent. Thank you for reaching out!')
+
+        return redirect('index')
+
+    else:
+        form=ContactMessageForm()
+
+    return render(request, 'index.html', {"form":form})
 
 #class-based views(for serializers)
 class TyphoidView(viewsets.ModelViewSet):
