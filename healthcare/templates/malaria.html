@@ -6,33 +6,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+   
 </head>
 <body>
     {% block body %}
-    
-    <div>
-       {% if illness.images.exists %}
-          <h1>{{ illness.name }}</h1>
-          <p>{{ illness.description }}</p>
-          <h2 class="mt-3">Related Images:</h2>
-          <div class="row image-gallery">
-                {% for image in illness.images.all %}
-                    <div class="col-md-3 mb-4">
-                        <div class="card">
-                            <img src="{{image.pic.url}}" alt="Image for {{illness.name}}"  class="card-img-top img-fluid">
-                        </div>
-                    </div>
-                {% endfor %}
+    <section id="hero" class="hero section light-background">
+
+        <img src="{% static 'assets/img/m2.jpg' %}" alt="" data-aos="fade-in">
+  
+        <div class="container position-relative">
+  
+          <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+            <h2 style="color: green;">{{illness.name}}</h2>
+            <p>Malaria is a life-threatening disease caused by Plasmodium parasites, transmitted to humans through the bites of infected female Anopheles mosquitoes.</p>
+            <p>It is common in the tropic regions of Africa and South America</p>
+            <p>The plasmodium parasite comes in three variations: Plasmodium Vivax, Plasmodium Falciparum and Plasmodium Malariae</p>
+          </div><!-- End Welcome -->
+  
+        </div>
+  
+    </section>
+
+    <section id="symptoms" class="symptoms section" style="background-color: aqua;">
+
+      
+        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+          <h2>Symptoms</h2>
+        </div>
+  
+        
+        <div class="container d-flex aos-init aos-animate justify-content-center align-items-center " data-aos="fade-up" data-aos-delay="100">
+          
+          <div class="card bg-light" style="width: 600px; height:300px;">
+            <div class="card-header text-center">
+              <h2>Look out for</h2>
+            </div>
+            <div class="card-body">
+              <p>{{illness.description|linebreaksbr}}</p>
+            </div>
+          </div>
+  
+        </div>
+  
+      </section>
+
+      <div class="container lg-8">
+        <h2 class="text-center mb-3">Symptom Pictorials</h2>
+        {% if illness.images.exists %}
+          <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+             {% for image in illness.images.all %}
+              <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <img src="{{image.pic.url}}" alt="Image for {{illness.name}}" class="d-block w-91" style="width: 1400px; height:600px;">
+              </div>
+             {% endfor %}
+            </div>
+            <a href="#carouselExampleAutoplaying" class="carousel-control-prev" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a href="#carouselExampleAutoplaying" class="carousel-control-next" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
           </div>
         {% else %}
-            <P>No images available for {{illness.name}}</P>
+         <p>No images available for {{illness.name}}</p>
         {% endif %}
-    </div>
 
-    <div class="mt-4">
-        <a href="{% url 'index' %}">Back to the homepage</a>
-    </div>
-
-    {% endblock %}
+      </div>
+    
+  {% endblock %}
 </body>
 </html>

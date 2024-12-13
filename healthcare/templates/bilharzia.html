@@ -6,26 +6,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+   
 </head>
 <body>
     {% block body %}
-    <h1>{{ illness.name }}</h1>
-    <p>{{ illness.description }}</p>
+    <section id="hero" class="hero section light-background">
 
-    <h2>Related Images:</h2>
-    <div>
-       {% if illness.images.exists %}
-          <div class="image-gallery">
-                {% for image in illness.images.all %}
-                   <img src="{{image.pic.url}}" alt="Image for {{illness.name}}" style="width: 500px; height:400px">
-                {% endfor %}
+        <img src="{% static 'assets/img/b1.jpg' %}" alt="" data-aos="fade-in">
+  
+        <div class="container position-relative">
+  
+          <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+            <h2 style="color: red;">{{illness.name}}</h2>
+            <p style="color: aliceblue;">Bilharzia, also known as schistosomiasis, is a parasitic disease caused by trematode worms from the genus Schistosoma. </p>
+            <p style="color: aliceblue;"> It is transmitted to humans through contact with contaminated water, where the larvae of the parasite, released by infected snails, penetrate the skin. </p>
+            <p style="color: aliceblue;">The parasites mature in the human bloodstream and can cause damage to organs such as the liver, intestines, bladder, and even the nervous system. </p>
+          </div><!-- End Welcome -->
+  
+        </div>
+  
+    </section>
+
+    <section id="symptoms" class="symptoms section" style="background-color: aqua;">
+
+      
+        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+          <h2>Symptoms</h2>
+        </div>
+  
+        
+        <div class="container d-flex aos-init aos-animate justify-content-center align-items-center " data-aos="fade-up" data-aos-delay="100">
+          
+          <div class="card bg-light" style="width: 600px; height:300px;">
+            <div class="card-header text-center">
+              <h2>Look out for</h2>
+            </div>
+            <div class="card-body">
+              <p>{{illness.description|linebreaksbr}}</p>
+            </div>
+          </div>
+  
+        </div>
+  
+      </section>
+
+      <div class="container lg-8">
+        <h2 class="text-center mb-3">Symptom Pictorials</h2>
+        {% if illness.images.exists %}
+          <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+             {% for image in illness.images.all %}
+              <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <img src="{{image.pic.url}}" alt="Image for {{illness.name}}" class="d-block w-91" style="width: 1400px; height:600px;">
+              </div>
+             {% endfor %}
+            </div>
+            <a href="#carouselExampleAutoplaying" class="carousel-control-prev" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a href="#carouselExampleAutoplaying" class="carousel-control-next" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
           </div>
         {% else %}
-            <P>No images available for {{illness.name}}</P>
+         <p>No images available for {{illness.name}}</p>
         {% endif %}
-    </div>
 
-    <a href="{% url 'index' %}">Back to the homepage</a>
-    {% endblock %}
+      </div>
+    
+  {% endblock %}
 </body>
 </html>

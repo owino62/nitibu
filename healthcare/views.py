@@ -20,7 +20,8 @@ import requests
 import random
 from django.core.mail import send_mail
 from django.conf import settings
-
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
 # Create your views here.
 
 # function -based views(normal)
@@ -35,19 +36,36 @@ def register(request):
         form=CreateUserForm(request.POST)
         if form.is_valid():
             user=form.save()
-            username=form.cleaned_data['username']
-            password=form.cleaned_data['password1']
-            user=authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('index')
-           
-        
+            user.save()
+            messages.success(request,' Account created successfully, head to login page using the link below')
+            return redirect('login')
+        else:
+            messages.error(request,'Registration failed.Please check the form.')
     else:
         form=CreateUserForm()
-        
-    return render(request, 'register.html', {'form':form})
            
+    return render(request, 'register.html', {'form':form})
+
+def login(request):
+    if request.method=='POST':
+        form=AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username=form.cleaned_data.get('username')
+            password=form.cleaned_data.get('password')
+            user=authenticate(request, username=username, password=password)
+            if user is not None:
+                messages.success(request,'You are now logged in!')
+                return redirect('index')
+            else:
+                return HttpResponse('Invalid username or password')
+        
+        else:
+            return HttpResponse('Invalid form submission, please fill in all spaces')
+        
+    else:
+        form=AuthenticationForm()
+    
+    return render(request, 'login.html', {"form":form})
 
 def create_ugonjwa(request): 
     if request.method == 'POST': 
@@ -171,13 +189,12 @@ def stk(request):
              "PhoneNumber":phone,    
              "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa",    
              "AccountReference":"Nitibu Solutions",    
-             "TransactionDesc":"Payment for kicks"
+             "TransactionDesc":"Payment for medicine"
              }
         print(request)
     response= requests.post(api_url, json=request, headers=header)
     print(response)
-    return HttpResponse('success')
-
+    return HttpResponse('Payment prompt sent to your phone')
 
 
 def tengeneza_product(request):

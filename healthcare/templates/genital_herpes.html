@@ -10,7 +10,9 @@
 <body>
     {% block body %}
     <h1>{{ illness.name }}</h1>
-    <p>{{ illness.description }}</p>
+    <p>Genital herpes is a common sexually transmitted infection (STI) caused by the herpes simplex virus (HSV), typically HSV-2, but HSV-1 can also cause genital infections. </p>
+    <h1>Symptoms</h1>
+    <p>{{ illness.description|linebreaksbr }}</p>
 
     <h2>Related Images:</h2>
     <div>

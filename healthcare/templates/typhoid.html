@@ -6,39 +6,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+   
 </head>
 <body>
     {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="mt-4">{{illness.name}}</h2>
-                <p>This is a water-borne disease caused by a bacteria known as Salmonella Typhi.</p>
-                <p>It is also spread through contaminated food</p>
-                <h2>Symptoms</h2>
-                <div class="container">
-                  <p>{{illness.description}}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-   
-   {% if illness.images.exists %}
-   <div class="container">
-    <div class="row">
-        {% for image in illness.images.all %}
-            <div class="col-md-3">
-              <div class="card mb-4">
-                <img src="{{image.pic.url}}" alt="Image for {{illness.name}}"  class="card-img-top img-fluid">
-              </div>
-            </div>
-        {% endfor %}
-    </div>  
-   </div>
-   {% else %}
-        <p>No images available for {{illness.name}}</p>
-    {% endif %}
+    <section id="hero" class="hero section light-background">
 
-   {% endblock %}
+        <img src="{% static 'assets/img/typh5.jpeg' %}" alt="" data-aos="fade-in">
+  
+        <div class="container position-relative">
+  
+          <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
+            <h2 style="color: aliceblue;">{{illness.name}}</h2>
+            <p style="color: aliceblue;">This is a water-borne disease caused by a bacteria known as Salmonella Typhi.</p>
+            <p style="color: aliceblue;">It is also spread through contaminated food</p>
+          </div><!-- End Welcome -->
+  
+        </div>
+  
+    </section>
+
+    <section id="symptoms" class="symptoms section" style="background-color: aqua;">
+
+      
+        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+          <h2>Symptoms</h2>
+        </div>
+  
+        
+        <div class="container d-flex aos-init aos-animate justify-content-center align-items-center " data-aos="fade-up" data-aos-delay="100">
+          
+          <div class="card bg-light" style="width: 600px; height:300px;">
+            <div class="card-header text-center">
+              <h2>Look out for</h2>
+            </div>
+            <div class="card-body">
+              <p>{{illness.description|linebreaksbr}}</p>
+            </div>
+          </div>
+  
+        </div>
+  
+      </section>
+
+      <div class="container lg-8">
+        <h2 class="text-center mb-3">Symptom Pictorials</h2>
+        {% if illness.images.exists %}
+          <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+             {% for image in illness.images.all %}
+              <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                <img src="{{image.pic.url}}" alt="Image for {{illness.name}}" class="d-block w-91" style="width: 1400px; height:600px;">
+              </div>
+             {% endfor %}
+            </div>
+            <a href="#carouselExampleAutoplaying" class="carousel-control-prev" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </a>
+            <a href="#carouselExampleAutoplaying" class="carousel-control-next" role="button" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </a>
+          </div>
+        {% else %}
+         <p>No images available for {{illness.name}}</p>
+        {% endif %}
+
+      </div>
+    
+  {% endblock %}
 </body>
 </html>
